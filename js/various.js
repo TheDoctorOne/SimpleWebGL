@@ -39,11 +39,9 @@ function createProgram(gl, vertexShader, fragmentShader) {
     gl.deleteProgram(program);
 }
 
-function configureToRender(gl, program, positionAttributeLoc, positionBuffer, size) {
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.useProgram(program);
-    gl.enableVertexAttribArray(positionAttributeLoc);
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+function attributeDefiner(gl, attr, buffer, size) {
+    gl.enableVertexAttribArray(attr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
     var type = gl.FLOAT;
     var normalized = false;
@@ -52,7 +50,12 @@ function configureToRender(gl, program, positionAttributeLoc, positionBuffer, si
 
     //At behind the function below binds the ARRAY_BUFFER bind point to "positionBuffer" so now we are free to bind anything we 
     //want to ARRAY_BUFFER bind point. Attribute will use the "positionBuffer".
-    gl.vertexAttribPointer(positionAttributeLoc, size, type, normalized, stride, offset);
+    gl.vertexAttribPointer(attr, size, type, normalized, stride, offset);
+}
+
+function configureToRender(gl, program) {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.useProgram(program);
 }
 
 function render(gl, count) {

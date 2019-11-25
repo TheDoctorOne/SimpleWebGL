@@ -14,7 +14,7 @@ window.onload = function init(){
 
 	//Configuring WebGL
 	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-	gl.clearColor(0, 0, 0, 0); //Makes canvas transparent
+	gl.clearColor(0, 0, 0, 1); //Makes canvas transparent
 
 	//Getting the source code
 	var vertexShaderSource = document.getElementById("vertex-shader").text;
@@ -27,10 +27,12 @@ window.onload = function init(){
 	//Creating the program, func at "various.js"
 	var program = createProgram(gl, vertexShader, fragmentShader);
 
-	//Getting position variable from source code
-	var positionAttributeLoc = gl.getAttribLocation(program, "vPosition");
+	//Getting attribute from source code
+	var positionAttr = gl.getAttribLocation(program, "vPosition");
+	var colorAttr = gl.getAttribLocation(program, "col");
 	//In WebGL, attributes get their data from buffers so we need to create a buffer
 	var positionBuffer = gl.createBuffer();
+	var colorBuffer = gl.createBuffer();
 	//Binding the buffer
 	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
@@ -42,23 +44,7 @@ window.onload = function init(){
 	 * gl.STATIC_DRAW tells WebGL we are not likely to change this data much.
 	 */
 	
-	configureToRender(gl, program, positionAttributeLoc, positionBuffer, 3);
+	configureToRender(gl, program);
 
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.entity.head), gl.STATIC_DRAW);
-	render(gl, 24);
-
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.entity.chest), gl.STATIC_DRAW);
-	render(gl, 24);
-
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.entity.armLeft), gl.STATIC_DRAW);
-	render(gl, 24);
-
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.entity.armRight), gl.STATIC_DRAW);
-	render(gl, 24);
-
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.entity.legLeft), gl.STATIC_DRAW);
-	render(gl, 24);
-
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.entity.legRight), gl.STATIC_DRAW);
-	render(gl, 24);
+	entity.draw(gl, positionAttr, positionBuffer, colorAttr, colorBuffer);
 };
