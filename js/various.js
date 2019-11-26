@@ -54,12 +54,27 @@ function attributeDefiner(gl, attr, buffer, size) {
 }
 
 function configureToRender(gl, program) {
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.enable(gl.CULL_FACE);
     gl.useProgram(program);
 }
 
+function movementUpdate(gl, matrixUniform) {
+    var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
+    matrix = m4.translate(matrix, tx, ty, tz);
+    matrix = m4.xRotate(matrix, rx);
+    matrix = m4.yRotate(matrix, ry);
+    matrix = m4.zRotate(matrix, rz);
+    matrix = m4.scale(matrix, sx, sy, sz);
+
+    gl.uniformMatrix4fv(matrixUniform, false, matrix);
+}
+
+
 function render(gl, count) {
     var primitiveType = gl.TRIANGLES;
-    var offset = 0;
-    gl.drawArrays(primitiveType, offset, count);
+    const type = gl.UNSIGNED_SHORT;
+    const offset = 0;
+    gl.drawElements(primitiveType, count, type, offset);
 }

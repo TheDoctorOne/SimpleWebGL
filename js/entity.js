@@ -11,25 +11,27 @@
 
 class Entity {
     initProperties() {
-        this.scale = 20;
+        this.scale = 0.1;
 
-        this.x =-4.5; //Top left corner of the head
-        this.y = 14.0;
-        this.z = 0.0;
+        this.x = 0.0; //Top left corner of the head
+        this.y = 0.0;
+        this.z = -10.0;
         
-        this.headSize = 4.0;
+        this.headWidth = 6.0;
+        this.headHeight = 6.0;
+        this.headDepth = 3.0;
 
-        this.chestWidth = 6.0;
-        this.chestHeight= 10.0;
-        this.chestDepth = 5.0;
+        this.chestWidth = 8.0;
+        this.chestHeight= 11.5;
+        this.chestDepth = 3.0;
 
         this.armWidth = 3.0;
         this.armHeight= 12.0;
-        this.armDepth = 5.0;
+        this.armDepth = 3.0;
 
-        this.legWidth = 2.5;
+        this.legWidth = 3.0;
         this.legHeigth= 12.0;
-        this.legDepth = 5.0;
+        this.legDepth = 3.0;
     }
 
     constructor() {
@@ -39,40 +41,51 @@ class Entity {
     }
 
     initCoordinates(x,y,z) {
-        this.head = this.setCoordinates(x, y, z,                                                                                                                            this.headSize, this.headSize, this.headSize);
-        this.chest = this.setCoordinates(x-((this.chestWidth-this.headSize)/2), y-this.headSize, z,                                                                         this.chestWidth, this.chestHeight, this.chestDepth);
-        this.armLeft = this.setCoordinates(x-((this.chestWidth-this.headSize)/2) - this.armWidth, y-this.headSize, z,                                                       this.armWidth, this.armHeight, this.armDepth);
-        this.armRight = this.setCoordinates(x-((this.chestWidth-this.headSize)/2) + this.chestWidth, y-this.headSize, z,                                                    this.armWidth, this.armHeight, this.armDepth);
-        this.legLeft = this.setCoordinates(x-((this.chestWidth-this.headSize)/2), y-(this.headSize+this.chestHeight), z,                                                    this.legWidth, this.legHeigth, this.legDepth);
-        this.legRight = this.setCoordinates(x-((this.chestWidth-this.headSize)/2) + this.chestWidth - this.legWidth, y-(this.headSize+this.chestHeight), z,                 this.legWidth, this.legHeigth, this.legDepth);
+        this.head = this.setCoordinates(x, y, z,                                                                                                                 this.headWidth, this.headHeight, this.headDepth);
+        this.chest = this.setCoordinates(x-((this.chestWidth-this.headWidth)/2), y-this.headHeight, z,                                                           this.chestWidth, this.chestHeight, this.chestDepth);
+        this.armLeft = this.setCoordinates(x-((this.chestWidth-this.headWidth)/2) - this.armWidth, y-this.headHeight, z,                                         this.armWidth, this.armHeight, this.armDepth);
+        this.armRight = this.setCoordinates(x-((this.chestWidth-this.headWidth)/2) + this.chestWidth, y-this.headHeight, z,                                      this.armWidth, this.armHeight, this.armDepth);
+        this.legLeft = this.setCoordinates(x-((this.chestWidth-this.headWidth)/2), y-(this.headHeight+this.chestHeight), z,                                      this.legWidth, this.legHeigth, this.legDepth);
+        this.legRight = this.setCoordinates(x-((this.chestWidth-this.headWidth)/2) + this.chestWidth - this.legWidth, y-(this.headHeight+this.chestHeight), z,   this.legWidth, this.legHeigth, this.legDepth);
+        
+        Array.prototype.push.apply(this.head, this.chest);
+        Array.prototype.push.apply(this.head, this.armLeft);
+        Array.prototype.push.apply(this.head, this.armRight);
+        Array.prototype.push.apply(this.head, this.legLeft);
+        Array.prototype.push.apply(this.head, this.legRight);
     }
 
     initColors() {
-        this.headColor = this.setColor(1, 0, 0);
-        this.chestColor = this.setColor(0, 1, 0);
-        this.armColor = this.setColor(1, 0, 0);
-        this.legColor = this.setColor(0, 0, 1);
+        this.headColor = this.setColor(0.5, 0, 0);
+        this.chestColor = this.setColor(0, 0.5, 0);
+        this.armColor = this.setColor(0.5, 0.5, 0);
+        this.legColor = this.setColor(0, 0, 0.5);
+        Array.prototype.push.apply(this.headColor,this.chestColor);
+        Array.prototype.push.apply(this.headColor,this.armColor);
+        Array.prototype.push.apply(this.headColor,this.armColor);
+        Array.prototype.push.apply(this.headColor,this.legColor);
+        Array.prototype.push.apply(this.headColor,this.legColor);
     }
 
     setColor(r, g, b) {
         var colArray = [
             //Front
-            r, g, b, 1,
-            r, g, b, 1,
-            r, g, b, 1,
-            r, g, b, 1,
+            r, g+0.1, b, 1,
+            r, g+0.1, b, 1,
+            r, g+0.1, b, 1,
+            r, g+0.1, b, 1,
 
             //Back
-            r, g, b, 1,
-            r, g, b, 1,
-            r, g, b, 1,
-            r, g, b, 1,
+            r+0.1, g, b, 1,
+            r+0.1, g, b, 1,
+            r+0.1, g, b, 1,
+            r+0.1, g, b, 1,
 
             //Top
-            r, g, b, 1,
-            r, g, b, 1,
-            r, g, b, 1,
-            r, g, b, 1,
+            r, g, b+0.1, 1,
+            r, g, b+0.1, 1,
+            r, g, b+0.1, 1,
+            r, g, b+0.1, 1,
 
             //Bottom
             r, g, b, 1,
@@ -81,16 +94,16 @@ class Entity {
             r, g, b, 1,
 
             //Right
-            r, g, b, 1,
-            r, g, b, 1,
-            r, g, b, 1,
+            r, g+0.1, b+0.1, 1,
+            r, g+0.1, b+0.1, 1,
+            r, g+0.1, b+0.1, 1,
             r, g, b, 1,
 
             //Left
-            r, g, b, 1,
-            r, g, b, 1,
-            r, g, b, 1,
-            r, g, b, 1
+            r+0.1, g+0.1, b, 1,
+            r+0.1, g+0.1, b, 1,
+            r+0.1, g+0.1, b, 1,
+            r+0.1, g+0.1, b, 1
         ];
         return colArray;
     }
@@ -105,79 +118,72 @@ class Entity {
         d = d / this.scale;
         var coordinates = [
             //Front
-            x, y, z,// Top left
-            x+w, y, z,// Top Right
-            x, y-h, z,// Bottom Left
-            x+w, y-h, z,// Bottom Right
+            x+w, y, z+d,
+            x, y, z+d,
+            x, y-h, z+d,
+            x+w, y-h, z+d,
 
             //Back (Tek Değişiklik Z üzerinde = Front - Derinlik)
-            x+w, y, z-d,// Top Right
-            x, y, z-d,// Top left
-            x+w, y-h, z-d,// Bottom Right
-            x, y-h, z-d,// Bottom Left
+            x, y-h, z,
+            x, y, z,
+            x+w, y, z,
+            x+w, y-h, z,
 
             //Top
-            x+w, y, z,
-            x+w, y, z-d,
-            x, y, z-d,
             x, y, z,
+            x, y, z+d,
+            x+w, y, z+d,
+            x+w, y, z,
 
             //Bottom
             x+w, y-h, z,
-            x+w, y-h, z-d,
-            x, y-h, z-d,
+            x+w, y-h, z+d,
+            x, y-h, z+d,
             x, y-h, z,
 
             //Right
-            x+w, y, z-d,
-            x+w, y-h, z-d,
-            x+w, y, z,
             x+w, y-h, z,
+            x+w, y, z,
+            x+w, y, z+d,
+            x+w, y-h, z+d,
 
             //Left
-            x, y, z-d,
-            x, y-h, z-d,
             x, y, z,
-            x, y-h, z
+            x, y-h, z,
+            x, y-h, z+d,
+            x, y, z+d,
         ];
         return coordinates;
     }
 
-    draw (gl, positionAttr, positionBuffer, colorAttr, colorBuffer) {
+    setIndicies() {
+        this.indicies = this.genIndices(0); //Head
+        Array.prototype.push.apply(this.indicies,this.genIndices(24)); //Chest
+        Array.prototype.push.apply(this.indicies,this.genIndices(48)); //ArmLeft
+        Array.prototype.push.apply(this.indicies,this.genIndices(72)); //ArmRight
+        Array.prototype.push.apply(this.indicies,this.genIndices(96)); //LegLeft
+        Array.prototype.push.apply(this.indicies,this.genIndices(120)); //LegRight
+    }
+
+    genIndices(start) {
+        return [
+            start+0,  start+1,  start+2,      start+0,  start+2,  start+3,    // front
+            start+4,  start+5,  start+6,      start+4,  start+6,  start+7,    // back
+            start+8,  start+9,  start+10,     start+8,  start+10, start+11,   // top
+            start+12, start+13, start+14,     start+12, start+14, start+15,   // bottom
+            start+16, start+17, start+18,     start+16, start+18, start+19,   // right
+            start+20, start+21, start+22,     start+20, start+22, start+23,   // left
+          ];
+    }
+
+    draw (gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer) {        
+        var pNum= 36 * 6;
         attributeDefiner(gl, positionAttr, positionBuffer, 3);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.head), gl.STATIC_DRAW);
         attributeDefiner(gl, colorAttr, colorBuffer, 4);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.headColor), gl.STATIC_DRAW);
-        render(gl, 24);
-    
-        attributeDefiner(gl, positionAttr, positionBuffer, 3);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.chest), gl.STATIC_DRAW);
-        attributeDefiner(gl, colorAttr, colorBuffer, 4);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.chestColor), gl.STATIC_DRAW);
-        render(gl, 24);
-    
-        attributeDefiner(gl, positionAttr, positionBuffer, 3);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.armLeft), gl.STATIC_DRAW);
-        attributeDefiner(gl, colorAttr, colorBuffer, 4);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.armColor), gl.STATIC_DRAW);
-        render(gl, 24);
-    
-        attributeDefiner(gl, positionAttr, positionBuffer, 3);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.armRight), gl.STATIC_DRAW);
-        attributeDefiner(gl, colorAttr, colorBuffer, 4);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.armColor), gl.STATIC_DRAW);
-        render(gl, 24);
-    
-        attributeDefiner(gl, positionAttr, positionBuffer, 3);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.legLeft), gl.STATIC_DRAW);
-        attributeDefiner(gl, colorAttr, colorBuffer, 4);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.legColor), gl.STATIC_DRAW);
-        render(gl, 24);
-    
-        attributeDefiner(gl, positionAttr, positionBuffer, 3);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.legRight), gl.STATIC_DRAW);
-        attributeDefiner(gl, colorAttr, colorBuffer, 4);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.setColor(1, 0 ,1)), gl.STATIC_DRAW);
-        render(gl, 24);
+        movementUpdate(gl, matrixUni);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexbuffer);
+        render(gl, pNum);
     }
 }

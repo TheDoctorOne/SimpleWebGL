@@ -5,8 +5,9 @@
 		varying vec4 color;
 		attribute vec4 vPosition;
 		attribute vec4 col;
+		uniform mat4 matrix;
 		void main(){
-			gl_Position = vPosition; //Pos -1 <-> +1
+			gl_Position = matrix * vPosition; //Pos -1 <-> +1
 			color = col; //Color 0 <-> +1
 		}
 	</script>
@@ -20,12 +21,37 @@
 	<!-- script type="text/javascript" src="../Common/webgl-utils.js"></script-->
     <!-- script type="text/javascript" src="../Common/MV.js"></script-->
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/movement.js"></script>
     <script type="text/javascript" src="js/various.js"></script>
 	<script id="entity" type="text/javascript" src="js/entity.js"></script>
+	<script src="https://webglfundamentals.org/webgl/resources/webgl-lessons-ui.js"></script>
   </head>
   <body>
-    <canvas id="gl-canvas" width="512" height="512">
+    <canvas id="gl-canvas" width="640" height="360">
 	  Oops ... your browser doesn't support the HTML5 canvas element
 	</canvas>
+		<div id="uiContainer">
+			<div id="ui">
+			  <div id="x"></div>
+			  <div id="y"></div>
+			  <div id="z"></div>
+			  <div id="angleX"></div>
+			  <div id="angleY"></div>
+			  <div id="angleZ"></div>
+			</div>
+		  </div>
+	<br>
+	<input type="text" id="input">
+	<br>
+	<button onclick="setX()">setX</button>
+	<button onclick="setY()">setY</button>
+	<button onclick="setZ()">setZ</button>
+	<br>
+	<button onclick="rotX()">RotX</button>
+	<button onclick="rotY()">RotY</button>
+	<button onclick="rotZ()">RotZ</button>
   </body>
+  <script>
+	  
+  </script>
 </html>
