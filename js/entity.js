@@ -12,10 +12,6 @@
 class Entity {
     initProperties() {
         this.scale = 0.1;
-
-        this.x = 0.0; //Top left corner of the head
-        this.y = 0.0;
-        this.z = -10.0;
         
         this.headWidth = 6.0;
         this.headHeight = 6.0;
@@ -32,6 +28,10 @@ class Entity {
         this.legWidth = 3.0;
         this.legHeigth= 12.0;
         this.legDepth = 3.0;
+
+        this.x = -3.0; //Top left behind corner of the head
+        this.y = -3.0;
+        this.z = -1.5;
     }
 
     constructor() {
@@ -47,12 +47,6 @@ class Entity {
         this.armRight = this.setCoordinates(x-((this.chestWidth-this.headWidth)/2) + this.chestWidth, y-this.headHeight, z,                                      this.armWidth, this.armHeight, this.armDepth);
         this.legLeft = this.setCoordinates(x-((this.chestWidth-this.headWidth)/2), y-(this.headHeight+this.chestHeight), z,                                      this.legWidth, this.legHeigth, this.legDepth);
         this.legRight = this.setCoordinates(x-((this.chestWidth-this.headWidth)/2) + this.chestWidth - this.legWidth, y-(this.headHeight+this.chestHeight), z,   this.legWidth, this.legHeigth, this.legDepth);
-        
-        Array.prototype.push.apply(this.head, this.chest);
-        Array.prototype.push.apply(this.head, this.armLeft);
-        Array.prototype.push.apply(this.head, this.armRight);
-        Array.prototype.push.apply(this.head, this.legLeft);
-        Array.prototype.push.apply(this.head, this.legRight);
     }
 
     initColors() {
@@ -116,7 +110,7 @@ class Entity {
         w = w / this.scale;
         h = h / this.scale;
         d = d / this.scale;
-        var coordinates = [
+        this.coordinates = [
             //Front
             x+w, y, z+d,
             x, y, z+d,
@@ -125,7 +119,7 @@ class Entity {
 
             //Back (Tek Değişiklik Z üzerinde = Front - Derinlik)
             x, y-h, z,
-            x, y, z,
+            x, y, z, //15 - 16 - 17
             x+w, y, z,
             x+w, y-h, z,
 
@@ -153,16 +147,16 @@ class Entity {
             x, y-h, z+d,
             x, y, z+d,
         ];
-        return coordinates;
+        return this.coordinates;
     }
 
     setIndicies() {
         this.indicies = this.genIndices(0); //Head
         Array.prototype.push.apply(this.indicies,this.genIndices(24)); //Chest
-        Array.prototype.push.apply(this.indicies,this.genIndices(48)); //ArmLeft
-        Array.prototype.push.apply(this.indicies,this.genIndices(72)); //ArmRight
-        Array.prototype.push.apply(this.indicies,this.genIndices(96)); //LegLeft
-        Array.prototype.push.apply(this.indicies,this.genIndices(120)); //LegRight
+        Array.prototype.push.apply(this.indicies,this.genIndices(48)); //Arm
+        Array.prototype.push.apply(this.indicies,this.genIndices(72)); //Arm
+        Array.prototype.push.apply(this.indicies,this.genIndices(96)); //Leg
+        Array.prototype.push.apply(this.indicies,this.genIndices(120)); //Leg
     }
 
     genIndices(start) {
@@ -176,14 +170,69 @@ class Entity {
           ];
     }
 
-    draw (gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer) {        
-        var pNum= 36 * 6;
+    draw (gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {        
+        this.pNum= 36;
+        this.drawHead(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer);
+        this.drawChest(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer);
+        this.drawArms(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer);
+        this.drawLegs(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer);
+    }
+
+    drawHead(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {
         attributeDefiner(gl, positionAttr, positionBuffer, 3);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.head), gl.STATIC_DRAW);
         attributeDefiner(gl, colorAttr, colorBuffer, 4);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.headColor), gl.STATIC_DRAW);
-        movementUpdate(gl, matrixUni);
+        gl.uniformMatrix4fv(matrixUniform, false, movementUpdate(gl));
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexbuffer);
-        render(gl, pNum);
+        render(gl, this.pNum);
+    }
+
+    drawChest(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {
+        attributeDefiner(gl, positionAttr, positionBuffer, 3);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.chest), gl.STATIC_DRAW);
+        attributeDefiner(gl, colorAttr, colorBuffer, 4);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.chestColor), gl.STATIC_DRAW);
+        gl.uniformMatrix4fv(matrixUniform, false, movementUpdate(gl));
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexbuffer);
+        render(gl, this.pNum);
+    }
+
+    drawArms(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {
+        attributeDefiner(gl, positionAttr, positionBuffer, 3);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.armRight), gl.STATIC_DRAW);
+        attributeDefiner(gl, colorAttr, colorBuffer, 4);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.armColor), gl.STATIC_DRAW);
+        gl.uniformMatrix4fv(matrixUniform, false, movementUpdate(gl));
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexbuffer);
+        render(gl, this.pNum);
+
+        
+        attributeDefiner(gl, positionAttr, positionBuffer, 3);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.armLeft), gl.STATIC_DRAW);
+        attributeDefiner(gl, colorAttr, colorBuffer, 4);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.armColor), gl.STATIC_DRAW);
+        gl.uniformMatrix4fv(matrixUniform, false, movementUpdate(gl));
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexbuffer);
+        render(gl, this.pNum);
+    }
+
+    drawLegs(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {
+        attributeDefiner(gl, positionAttr, positionBuffer, 3);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.legRight), gl.STATIC_DRAW);
+        attributeDefiner(gl, colorAttr, colorBuffer, 4);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.legColor), gl.STATIC_DRAW);
+        gl.uniformMatrix4fv(matrixUniform, false, movementUpdate(gl));
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexbuffer);
+        render(gl, this.pNum);
+
+        
+        attributeDefiner(gl, positionAttr, positionBuffer, 3);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.legLeft), gl.STATIC_DRAW);
+        attributeDefiner(gl, colorAttr, colorBuffer, 4);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.legColor), gl.STATIC_DRAW);
+        gl.uniformMatrix4fv(matrixUniform, false, movementUpdate(gl));
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexbuffer);
+        render(gl, this.pNum);
     }
 }

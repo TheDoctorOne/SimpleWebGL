@@ -61,15 +61,16 @@ function configureToRender(gl, program) {
     gl.useProgram(program);
 }
 
-function movementUpdate(gl, matrixUniform) {
-    var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
+function movementUpdate(gl, matrix =null) {
+    if(matrix == null)
+        var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
     matrix = m4.translate(matrix, tx, ty, tz);
     matrix = m4.xRotate(matrix, rx);
     matrix = m4.yRotate(matrix, ry);
     matrix = m4.zRotate(matrix, rz);
     matrix = m4.scale(matrix, sx, sy, sz);
 
-    gl.uniformMatrix4fv(matrixUniform, false, matrix);
+    return matrix;
 }
 
 
