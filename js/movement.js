@@ -35,13 +35,17 @@ window.onkeydown = function (e) {
             break;
         //Z = 90 -> Camera Angle dec
         case 90:
-                cameraNewAngle -= 5;
-                cameraAngleRadians = degToRad(cameraNewAngle--);
+                if(perspective) {
+                    cameraNewAngle -= 5;
+                    cameraAngleRadians = degToRad(cameraNewAngle--);
+                }
             break;
         //x = 88 -> Camera Angle inc
         case 88:
-                cameraNewAngle += 5;
-                cameraAngleRadians = degToRad(cameraNewAngle++);
+                if(perspective) {
+                    cameraNewAngle += 5;
+                    cameraAngleRadians = degToRad(cameraNewAngle++);
+                }
             break;
     }
 }

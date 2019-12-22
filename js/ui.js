@@ -1,3 +1,24 @@
+function setPerspective() {
+	perspective = true;
+	tx = -200;
+	ty = 0;
+	tz = 0;
+	rx = xToRad(0);
+	ry = yToRad(0);
+	rz = zToRad(0);
+	scene();
+}
+function setOrthogonal() {
+	perspective = false;
+	tx = 300;
+	ty = -170;
+	tz = 0;
+	rx = xToRad(0);
+	ry = yToRad(0);
+	rz = zToRad(180);
+	scene();
+}
+
 function rotX() {
 	var val = document.getElementById("input").value;
 	rx = xToRad(val);
@@ -28,6 +49,24 @@ function setY() {
 function setZ() {
 	var val = document.getElementById("input").value;
 	tz = val;
+	scene();
+}
+
+function ScaleX() {
+	var val = document.getElementById("input").value;
+	sx = val;
+	scene();
+}
+
+function ScaleY() {
+	var val = document.getElementById("input").value;
+	sy = val;
+	scene();
+}
+
+function ScaleZ() {
+	var val = document.getElementById("input").value;
+	sz = val;
 	scene();
 }
 

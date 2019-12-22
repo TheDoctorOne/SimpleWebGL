@@ -61,10 +61,14 @@ function configureToRender(gl, program) {
     gl.enable(gl.CULL_FACE);
     gl.useProgram(program);
 }
-
+var perspective = true;
 function movementUpdate(gl, matrix =null) {
-    if(matrix == null)
-        var matrix = m4.translate(viewProjectionMatrix, 300, 350, -100);
+    if(matrix == null) {
+        if(perspective)
+            var matrix = m4.translate(viewProjectionMatrix, 300, 350, -100);
+        else 
+            var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
+    }
     matrix = m4.translate(matrix, tx, ty, tz);
     matrix = m4.xRotate(matrix, rx);
     matrix = m4.yRotate(matrix, ry);
@@ -73,7 +77,6 @@ function movementUpdate(gl, matrix =null) {
 
     return matrix;
 }
-
 
 function render(gl, count) {
     var primitiveType = gl.TRIANGLES;

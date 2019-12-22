@@ -32,6 +32,9 @@
 	  Oops ... your browser doesn't support the HTML5 canvas element
 	</canvas>
 	<br>
+	<button onclick="setPerspective()">Perspective</button>
+	<button onclick="setOrthogonal()">Orthogonal</button>
+	<br>
 	<input type="text" id="input">
 	<br>
 	<button onclick="setX()">Set X</button>
@@ -42,11 +45,20 @@
 	<button onclick="rotY()">Rot Y</button>
 	<button onclick="rotZ()">Rot Z</button>
 	<br>
+	<button onclick="ScaleX()">Scale X</button>
+	<button onclick="ScaleY()">Scale Y</button>
+	<button onclick="ScaleZ()">Scale Z</button>
+	<br>
 	<button onclick="setTransparency()">Set Transparency</button>
 	<button onclick="setRed()">Set Red</button>
 	<button onclick="setGreen()">Set Green</button>
 	<button onclick="setBlue()">Set Blue</button>
   </body>
+  <p>
+	  Left and Right Arrow Buttons Rotates Object (Y axis) <br>
+	  Up Arrow Button Rotates around Z axis <br>
+	  "Z" and "X" rotates camera when camera set to Perspective
+  </p>
   <script>
 	  
   </script>
