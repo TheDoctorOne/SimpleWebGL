@@ -30,7 +30,7 @@ class Entity {
         this.legDepth = 3.0;
 
         this.x = -3.0; //Top left behind corner of the head
-        this.y = -3.0;
+        this.y = -20.75;
         this.z = -1.5;
     }
 
@@ -170,15 +170,15 @@ class Entity {
           ];
     }
 
-    draw (gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {        
+    draw (gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix) {        
         this.pNum= 36;
-        this.drawHead(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer);
-        this.drawChest(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer);
-        this.drawArms(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer);
-        this.drawLegs(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexbuffer);
+        this.drawHead(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix);
+        this.drawChest(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix);
+        this.drawArms(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix);
+        this.drawLegs(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix);
     }
 
-    drawHead(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {
+    drawHead(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix) {
         attributeDefiner(gl, positionAttr, positionBuffer, 3);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.head), gl.STATIC_DRAW);
         attributeDefiner(gl, colorAttr, colorBuffer, 4);
@@ -188,7 +188,7 @@ class Entity {
         render(gl, this.pNum);
     }
 
-    drawChest(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {
+    drawChest(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix) {
         attributeDefiner(gl, positionAttr, positionBuffer, 3);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.chest), gl.STATIC_DRAW);
         attributeDefiner(gl, colorAttr, colorBuffer, 4);
@@ -198,7 +198,7 @@ class Entity {
         render(gl, this.pNum);
     }
 
-    drawArms(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {
+    drawArms(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix) {
         attributeDefiner(gl, positionAttr, positionBuffer, 3);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.armRight), gl.STATIC_DRAW);
         attributeDefiner(gl, colorAttr, colorBuffer, 4);
@@ -217,7 +217,7 @@ class Entity {
         render(gl, this.pNum);
     }
 
-    drawLegs(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer) {
+    drawLegs(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix) {
         attributeDefiner(gl, positionAttr, positionBuffer, 3);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.legRight), gl.STATIC_DRAW);
         attributeDefiner(gl, colorAttr, colorBuffer, 4);

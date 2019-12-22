@@ -30,3 +30,32 @@ function setZ() {
 	tz = val;
 	scene();
 }
+
+
+//Background Color Change
+var transparency = 1;
+var RED = 0;
+var GREEN = 0;
+var BLUE = 0;
+function setTransparency() {
+	var val = document.getElementById("input").value;
+	transparency = val;
+	scene();
+}
+function setRed() {
+	var val = document.getElementById("input").value;
+	RED = val;
+	scene();
+}
+
+function setBlue() {
+	var val = document.getElementById("input").value;
+	BLUE = val;
+	scene();
+}
+
+function setGreen() {
+	var val = document.getElementById("input").value;
+	GREEN = val;
+	scene();
+}

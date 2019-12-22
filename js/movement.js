@@ -4,13 +4,15 @@
  * Front arrow key will move forward frontCode = 38
  */
 
-var tx = 300; var rx = xToRad(0); var sx = 1;
-var ty = 25; var ry = yToRad(0); var sy = 1;
-var tz = 0; var rz = zToRad(180); var sz = 1;
+var tx = -200; var rx = xToRad(0); var sx = 1;
+var ty = 0; var ry = yToRad(0); var sy = 1;
+var tz = 0; var rz = zToRad(0); var sz = 1;
 var xAngleValue = 0;
 var yAngleValue = 0;
 var zAngleValue = 0;
-window.onkeydown = function (e){
+
+var cameraNewAngle = 0;
+window.onkeydown = function (e) {
     //alert(String.fromCharCode(e.keyCode)+" : "+e.keyCode);
     switch(e.keyCode) {
         //Left arrow key
@@ -27,7 +29,19 @@ window.onkeydown = function (e){
             break;
         //Front arrow key
         case 38:
-            console.log("");
+                zAngleValue -= 5;
+                if(zAngleValue<0) zAngleValue += 360;
+                rz = zToRad(zAngleValue);
+            break;
+        //Z = 90 -> Camera Angle dec
+        case 90:
+                cameraNewAngle -= 5;
+                cameraAngleRadians = degToRad(cameraNewAngle--);
+            break;
+        //x = 88 -> Camera Angle inc
+        case 88:
+                cameraNewAngle += 5;
+                cameraAngleRadians = degToRad(cameraNewAngle++);
             break;
     }
 }

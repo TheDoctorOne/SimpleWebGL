@@ -8,6 +8,18 @@ var colorBuffer;
 var positionBuffer;
 var indexBuffer;
 
+//Camera Vars
+var radius = 200;
+var cameraAngleRadians;
+var fieldOfViewRadians;
+var aspect;
+var zNear;
+var zFar;
+var projectionMatrix;
+var cameraMatrix;
+var viewMatrix;
+var viewProjectionMatrix;
+
 window.onload = function init() {
     entity = new Entity();
 	var canvas = document.getElementById( "gl-canvas" );
@@ -16,7 +28,7 @@ window.onload = function init() {
 
 	//Configuring WebGL
 	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-	gl.clearColor(0, 0, 0, 1); //Changes canvas color
+	gl.clearColor(0, 0, 0, 0); //Changes canvas color
 	
 
 	//Getting the source code
@@ -38,9 +50,24 @@ window.onload = function init() {
 	positionBuffer = gl.createBuffer();
 	colorBuffer = gl.createBuffer();
 	indexBuffer = gl.createBuffer();
-	
+
+	cameraAngleRadians = degToRad(0);
+	fieldOfViewRadians = degToRad(60);
+	zNear = 1;
+	zFar = 2000;
 	scene();
 };
+
+
+function setCamera() {
+    aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+	projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
+	cameraMatrix = m4.yRotation(cameraAngleRadians);
+    cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
+    viewMatrix = m4.inverse(cameraMatrix);
+	viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+
+}
 
 function scene() {
 	
@@ -49,8 +76,8 @@ function scene() {
 	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(entity.indicies), gl.STATIC_DRAW);
 	
 	configureToRender(gl, program);
-
-	entity.draw(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexBuffer);
+	setCamera();
+	entity.draw(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUni, indexBuffer, viewProjectionMatrix);
 
 	requestAnimationFrame(scene);
 }
