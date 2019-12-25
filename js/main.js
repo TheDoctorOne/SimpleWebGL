@@ -4,9 +4,10 @@ var program;
 var positionAttr;
 var colorAttr;
 var matrixUni;
-var colorBuffer;
+var normalBuffer;
 var positionBuffer;
 var indexBuffer;
+var reverseLightDirectionLocation;
 
 //Camera Vars
 var radius = 200;
@@ -44,11 +45,12 @@ window.onload = function init() {
 
 	//Getting attribute from source code
 	positionAttr = gl.getAttribLocation(program, "vPosition");
-	colorAttr = gl.getAttribLocation(program, "col");
+	colorAttr = gl.getUniformLocation(program, "u_color");
 	matrixUni = gl.getUniformLocation(program, "matrix");
+	reverseLightDirectionLocation = gl.getUniformLocation(program, "u_reverseLightDirection");
 	//In WebGL, attributes get their data from buffers so we need to create a buffer
 	positionBuffer = gl.createBuffer();
-	colorBuffer = gl.createBuffer();
+	normalBuffer  = gl.createBuffer();
 	indexBuffer = gl.createBuffer();
 
 	cameraAngleRadians = degToRad(0);
@@ -70,6 +72,10 @@ function setCamera() {
 }
 
 function scene() {
+
+	gl.uniformMatrix4fv(matrixLocation, false, worldViewProjectionMatrix);
+	gl.uniform4fv(colorLocation, [1, 1, 1, 1]);
+	gl.uniform3fv(reverseLightDirectionLocation, m4.normalize([0.5, 0.7, 1]));
 	
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 	entity.setIndicies();

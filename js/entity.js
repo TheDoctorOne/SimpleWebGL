@@ -170,6 +170,47 @@ class Entity {
           ];
     }
 
+    setNormals(gl) {
+        this.normals = new Float32Array([
+            // Front
+            0.0,  0.0,  1.0,
+            0.0,  0.0,  1.0,
+            0.0,  0.0,  1.0,
+            0.0,  0.0,  1.0,
+
+            // Back
+            0.0,  0.0, -1.0,
+            0.0,  0.0, -1.0,
+            0.0,  0.0, -1.0,
+            0.0,  0.0, -1.0,
+
+            // Top
+            0.0,  1.0,  0.0,
+            0.0,  1.0,  0.0,
+            0.0,  1.0,  0.0,
+            0.0,  1.0,  0.0,
+
+            // Bottom
+            0.0, -1.0,  0.0,
+            0.0, -1.0,  0.0,
+            0.0, -1.0,  0.0,
+            0.0, -1.0,  0.0,
+
+            // Right
+            1.0,  0.0,  0.0,
+            1.0,  0.0,  0.0,
+            1.0,  0.0,  0.0,
+            1.0,  0.0,  0.0,
+
+            // Left
+            -1.0,  0.0,  0.0,
+            -1.0,  0.0,  0.0,
+            -1.0,  0.0,  0.0,
+            -1.0,  0.0,  0.0
+        ]);
+        gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
+    }
+
     draw (gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix) {        
         this.pNum= 36;
         this.drawHead(gl, positionAttr, positionBuffer, colorAttr, colorBuffer, matrixUniform, indexbuffer, viewProjectionMatrix);
